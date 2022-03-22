@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mile.mybatis.mappers.EmploeeMapper">
+
+    <resultMap id="empMap" type="Employee">
+        <id property="id" column="id"></id>
+        <result property="gendar" column="gendar"></result>
+        <result property="email" column="email"></result>
+        <result property="empId" column="emp_id"></result>
+        <association property="empt" javaType="Empt">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectEmp" resultMap="empMap">
+        select * from employee e LEFT JOIN empt p ON e.emp_id = p.id where e.id in (${ids});
+    </select>
+
+    <select id="selectEmpById" resultType="Employee">
+        select * from employee where id = #{id}
+    </select>
+    <select id="selectEmpByEmail" resultType="Employee">
+        select * from employee where email like concat("%",#{email},"%")
+    </select>
+    
+    <select id="selectByTJ" resultType="Employee">
+        select * from employee 
+        <where>
+            <if test="employee.email != null and employee.email != ''">
+                email = #{employee.email}
+            </if>
+            <if test="employee.id != null and employee.id != ''">
+                and id = #{employee.id}
+            </if>
+            <if test="employee.gendar != null and employee.gendar != ''">
+                and gendar = #{employee.gendar}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertEmployee">
+        insert into employee values
+        <foreach collection="emps" item="emp" separator=",">
+            (#{emp.id},#{emp.gendar},#{emp.email},#{emp.empId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteEmployee">
+        delete from employee where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator="," >
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

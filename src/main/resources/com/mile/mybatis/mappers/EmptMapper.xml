@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mile.mybatis.mappers.EmptMapper">
+
+    <resultMap id="emptMap" type="Empt">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <collection property="list" ofType="Employee">
+            <id property="id" column="id"></id>
+            <result property="gendar" column="gendar"></result>
+            <result property="email" column="email"></result>
+            <result property="empId" column="emp_id"></result>
+        </collection>
+    </resultMap>
+
+    <resultMap id="emptMap2" type="Empt">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <collection property="list" select="com.mile.mybatis.mappers.EmploeeMapper.selectEmpById" column="id"></collection>
+    </resultMap>
+
+    <select id="selectEmptById" resultMap="emptMap">
+        select * from empt e LEFT JOIN employee p ON e.id = p.emp_id where e.id =#{id};
+    </select>
+    <select id="selectEmptById2" resultMap="emptMap2">
+        select * from empt where id = #{id}
+    </select>
+
+
+</mapper>
