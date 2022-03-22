@@ -11,7 +11,8 @@ import java.io.InputStream;
 public class SqlSessionUtil {
     public static SqlSession getSqlSession(){
         SqlSession sqlSession = null;
-        try {
+        System.out.println("测试git用");
+       try {
             InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
              sqlSession = sqlSessionFactory.openSession(true);
