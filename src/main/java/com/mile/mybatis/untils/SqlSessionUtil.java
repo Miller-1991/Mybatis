@@ -19,6 +19,9 @@ public class SqlSessionUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("测试git用");
+        System.out.println("测试git用");
+        System.out.println("测试git用");
         return sqlSession;
     }
 }
